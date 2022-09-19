@@ -52,6 +52,6 @@ public class NetworkClient
         var authenticationClient = new TcpClient();
         var serverIP = IPAddress.Parse(NetworkConstants.SERVER_IP_ADDRESS);
 
-        authenticationClient.Connect(, TCPConstants.AUTHENTICATION_STARTING_PORT);
+        authenticationClient.Connect(serverIP, TCPConstants.AUTHENTICATION_STARTING_PORT);
     }
 }

@@ -1,25 +1,27 @@
 ﻿<Properties StartupConfiguration="{A216BA6F-12A1-4CE5-AF35-9AD31F467DF3}|Default">
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Runner.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NetworkClient.cs">
     <Files>
-      <File FileName="Program.cs" Line="14" Column="1" />
-      <File FileName="Client.cs" Line="46" Column="24" />
-      <File FileName="NetworkConstants.cs" Line="11" Column="14" />
+      <File FileName="NetworkConstants.cs" Line="46" Column="24" />
+      <File FileName="NetworkClient.cs" Line="37" Column="8" />
+      <File FileName="Runner.cs" Line="14" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Main" expanded="True">
-            <Node name="Main" expanded="True" />
+            <Node name="Main" expanded="True">
+              <Node name="NetworkClient.cs" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Main PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Main PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
 </Properties>
