@@ -10,4 +10,5 @@
 
 using System;
 
-NetworkClient client = new NetworkClient();
+Client client = new Client();
+client.Start();

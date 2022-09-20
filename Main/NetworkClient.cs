@@ -28,10 +28,7 @@ using System.Threading;
 
 public class NetworkClient
 {
-    public NetworkClient()
-    {
-        Console.WriteLine("Created the networking client.");
-    }
+    public NetworkClient() { }
 
     /* Authentication Process:
      * 
