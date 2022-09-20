@@ -38,7 +38,10 @@ public class Client
      * and stable, allow the user to launch the game. */
     public void Start()
     {
-        if (!authClient.IsDeviceAuthenticated()) { authClient.Authenticate(); }
-        Console.WriteLine("Finished running.");
+        if (!authClient.IsDeviceAuthenticated())
+        {
+            authClient.AuthenticateDevice();
+        }
+        Console.WriteLine("Finished.");
     }
 }

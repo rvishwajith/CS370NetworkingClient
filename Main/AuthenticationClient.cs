@@ -19,25 +19,54 @@ public class AuthenticationClient
 {
     public AuthenticationClient() { }
 
-    /* Checks if the device has already been authenticated for cases where the
-     * user wants to remember their account (usually personal computers). The
-     * user's account password should not be stored, instead a device-specific
-     * password should be stored locally. */
-    public bool IsDeviceAuthenticated() { return false; }
-
-    /* Begins the authentication or signup process for a device running
-     * the desktop client. */
-    public void Authenticate()
+    /* Sustained Authentication Startup:
+     * Used for cases where the user wants to remember their account and skip
+     * the login process completely.
+     * 1. Checks if the device has been authenticated by searching for
+     * the local authentication key and corresponding username/email.
+     * 2. If no authentication key could be found or the data is not properly
+     * formatted, go through the normal authentication process.
+     * 3. If it is formatted, validate the authentication with the server.
+     * 4. If the validation fails, go through the normal authentication process.
+     * 5. If properly validated, skip the login and go to the launch page. */
+    public bool IsDeviceAuthenticated()
     {
+        // Check device for username and auth key by searching files.
+        // Validate with the server.
+        return false;
+    }
+
+    /* Device Authentication Main Method:
+     * This is the method for running the authentication process if the device 
+     * is not already authenticated using sustained authentication. Called on
+     * startup.
+     */
+    public void AuthenticateDevice()
+    {
+        Console.WriteLine("LOGIN OR REGISTER FOR ACCOUNT");
         string option = GetAuthenticationOption();
-        if (option == "UPWD" || option == "EPWD")
+
+        if (option == "UPWD")
         {
-            AuthenticateWithEmailAndPassword(option.ToLower());
+            Console.WriteLine("\nLOGIN WITH USERNAME & PASSWORD");
+            AuthenticateWithUsernameAndPassword();
         }
-        else if (option == "Register")
+        else if (option == "EPWD")
         {
+            Console.WriteLine("\nLOGIN WITH EMAIL & PASSWORD");
+            AuthenticateWithEmailAndPassword();
+        }
+        else if (option == "QR")
+        {
+            Console.WriteLine("\nLOGIN WITH QR CODE");
+            AuthenticateWithEmailAndPassword();
+        }
+        else if (option == "SIGNUP")
+        {
+            Console.WriteLine("\nREGISTER FOR NEW ACCOUNT");
             Register();
         }
+        else { Console.WriteLine("\nINVALID SELECTION Exiting authentication loop."); }
     }
 
     /* Part 1 of Authentication:
@@ -50,74 +79,90 @@ public class AuthenticationClient
      * 3. For option 4: Proceed to Part 1 of Account Creation. */
     public string GetAuthenticationOption()
     {
-        Console.Write("LOGIN & REGISTRATION" +
+        Console.Write("\nChoose one of the following options:" +
             "\n1. Username & Password" +
             "\n2. Email Address & Password" +
             "\n3. QR Code (Mobile App)" +
             "\n4. Register for a new account." +
-            "\nEnter an option: ");
+            "\n\nEnter an option: ");
 
-        string[] options = { "UPWD", "EPWD", "QR", "REGISTER" };
-        var option = int.Parse(Console.ReadLine());
+        string[] options = { "UPWD", "EPWD", "QR", "SIGNUP" };
+        var option = int.Parse(Console.ReadLine() + "");
         return options[option - 1];
     }
 
     /* Part 2 of Authentication (Method 1 - Username):
-     * 1. Let the user enter the appropriate credentials for their preferred
-     * login method.
-     * 2. Validate the credentials locally.
-     * 3. Proceed to Part 3.
-     */
-    public void AuthenticateWithEmailAndPassword()
+     * 1. Let the user enter a username, username tag, and password.
+     * 2. Validate the credentials locally. */
+    public void AuthenticateWithUsernameAndPassword()
     {
-        string authType = option == "UPWD" ? "username" : "email address";
-        Console.WriteLine("\nLOGIN WITH " + authType.ToUpper() + " & PASSWORD");
+        Console.WriteLine("\nStep 1: Username" +
+            "\nRules:" +
+            "\n2. 2 <= Length <= 32" +
+            "\n1. Only letters and numbers" +
+            "\nEnter your username:");
+        var username = Console.ReadLine();
 
-        Console.Write("Enter your " + authType + ": ");
-        var credential = Console.ReadLine();
+        Console.WriteLine("\nStep 2: Username Tag" +
+            "\nRules:" +
+            "\n1. 2 <= Length <= 6" +
+            "\n2. Only letters and numbers." +
+            "\nEnter your password: ");
+        var userTag = Console.ReadLine();
 
-        Console.Write("Enter your password: ");
+        Console.WriteLine("\nStep 3: Password" +
+            "\nRules:" +
+            "\n1. 6 <= Length <= 64" +
+            "\n2. At least 1 uppercase and 1 lowercase letter." +
+            "\n3. At least 1 number." +
+            "\nAt least 1 special character." +
+            "\nEnter your password: ");
         var password = Console.ReadLine();
 
-        var requestOutput = "<" + option + ", " + credential + ", " + password + ">";
-        Console.WriteLine("\nFinal Request:\n" + requestOutput);
+        var credentialData = "<UPWD," + username + "," + userTag + "," + password + ">";
+        Console.WriteLine("\nFinal Request:\n" + credentialData);
     }
 
-    /* Part 2 of Authentication (Method 2 - Email):
-     * 1. Let the user enter the appropriate credentials for their preferred
-     * login method.
-     * 2. Validate the credentials locally.
-     * 3. Proceed to Part 3.
-     */
+    /* Part 2 of Authentication (Method 1 - Username):
+     * 1. Let the user enter an email address and password.
+     * 2. Validate the credentials locally. */
     public void AuthenticateWithEmailAndPassword()
     {
-        string authType = option == "UPWD" ? "username" : "email address";
-        Console.WriteLine("\nLOGIN WITH " + authType.ToUpper() + " & PASSWORD");
+        Console.WriteLine("\nStep 1: Email Address" +
+            "\nRules:" +
+            "\n1. Address <= 64 characters" +
+            "\n2. Domain <= 255 characters" +
+            "\nEnter your email address:");
+        var email = Console.ReadLine();
 
-        Console.Write("Enter your " + authType + ": ");
-        var credential = Console.ReadLine();
-
-        Console.Write("Enter your password: ");
+        Console.WriteLine("\nStep 2: Password" +
+            "\nRules:" +
+            "\n1. 6 <= Length <= 64" +
+            "\n2. At least 1 uppercase and 1 lowercase letter." +
+            "\n3. At least 1 number." +
+            "\nAt least 1 special character." +
+            "\nEnter your password: ");
         var password = Console.ReadLine();
 
-        var requestOutput = "<" + option + ", " + credential + ", " + password + ">";
-        Console.WriteLine("\nFinal Request:\n" + requestOutput);
+        var credentialData = "<EWPD," + email + "," + password + ">";
+        Console.WriteLine("\nFinal Authentication Request:\n" + credentialData);
     }
 
     /* Part 1 of Account Creation:
      * 1. Have the user enter their email address.
      * 2. Have the user choose a password for their account.
-     * 3. Have the user confirm their password. */
+     * 3. Have the user confirm their password.
+     * 4. Validate their credentials. */
     public void Register()
     {
         Console.WriteLine("\nREGISTER FOR A NEW ACCOUNT");
 
-        Console.Write("\nStep 1: Email Address" +
+        Console.WriteLine("\nStep 1: Email Address" +
             "\nRules:" +
             "\n1. Address <= 64 characters" +
             "\n2. Domain <= 255 characters" +
             "\nEnter your email address:");
-        var emailAddress = Console.ReadLine();
+        var email = Console.ReadLine();
 
         Console.WriteLine("\nStep 2: Password" +
             "\nRules:" +
