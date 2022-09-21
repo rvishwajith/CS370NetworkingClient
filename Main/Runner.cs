@@ -12,3 +12,5 @@ using System;
 
 Client client = new Client();
 client.Start();
+
+Console.WriteLine("Finished.");

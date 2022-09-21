@@ -43,30 +43,30 @@ public class AuthenticationClient
      */
     public void AuthenticateDevice()
     {
-        Console.WriteLine("LOGIN OR REGISTER FOR ACCOUNT");
+        Console.WriteLine("LOGIN OR REGISTER");
         string option = GetAuthenticationOption();
 
         if (option == "UPWD")
         {
-            Console.WriteLine("\nLOGIN WITH USERNAME & PASSWORD");
+            Console.WriteLine("\nLOGIN - USERNAME & PASSWORD");
             AuthenticateWithUsernameAndPassword();
         }
         else if (option == "EPWD")
         {
-            Console.WriteLine("\nLOGIN WITH EMAIL & PASSWORD");
+            Console.WriteLine("\nLOGIN - EMAIL & PASSWORD");
             AuthenticateWithEmailAndPassword();
         }
         else if (option == "QR")
         {
-            Console.WriteLine("\nLOGIN WITH QR CODE");
+            Console.WriteLine("\nLOGIN - QR CODE");
             AuthenticateWithEmailAndPassword();
         }
         else if (option == "SIGNUP")
         {
-            Console.WriteLine("\nREGISTER FOR NEW ACCOUNT");
+            Console.WriteLine("\nREGISTER FOR ACCOUNT");
             Register();
         }
-        else { Console.WriteLine("\nINVALID SELECTION Exiting authentication loop."); }
+        else { Console.WriteLine("\nINVALID"); }
     }
 
     /* Part 1 of Authentication:
@@ -80,10 +80,10 @@ public class AuthenticationClient
     public string GetAuthenticationOption()
     {
         Console.Write("\nChoose one of the following options:" +
-            "\n1. Username & Password" +
-            "\n2. Email Address & Password" +
-            "\n3. QR Code (Mobile App)" +
-            "\n4. Register for a new account." +
+            "\n1. Login with Username & Password" +
+            "\n2. Login with Email Address & Password" +
+            "\n3. Login with QR Code (Mobile App)" +
+            "\n4. Register for a New Account" +
             "\n\nEnter an option: ");
 
         string[] options = { "UPWD", "EPWD", "QR", "SIGNUP" };
@@ -96,52 +96,68 @@ public class AuthenticationClient
      * 2. Validate the credentials locally. */
     public void AuthenticateWithUsernameAndPassword()
     {
-        Console.WriteLine("\nStep 1: Username" +
-            "\nRules:" +
-            "\n2. 2 <= Length <= 32" +
-            "\n1. Only letters and numbers" +
-            "\nEnter your username:");
+        Console.Write("\nStep 1: Username" +
+            "\n1. 2 <= Length <= 32" +
+            "\n2. Only letters and numbers" +
+            "\n\nEnter your username: ");
         var username = Console.ReadLine();
 
-        Console.WriteLine("\nStep 2: Username Tag" +
-            "\nRules:" +
+        Console.Write("\nStep 2: Username Tag" +
             "\n1. 2 <= Length <= 6" +
             "\n2. Only letters and numbers." +
-            "\nEnter your password: ");
+            "\n\nEnter your username tag: ");
         var userTag = Console.ReadLine();
 
-        Console.WriteLine("\nStep 3: Password" +
-            "\nRules:" +
+        Console.Write("\nStep 3: Password" +
             "\n1. 6 <= Length <= 64" +
             "\n2. At least 1 uppercase and 1 lowercase letter." +
-            "\n3. At least 1 number." +
-            "\nAt least 1 special character." +
-            "\nEnter your password: ");
+            "\n\nEnter your password: ");
         var password = Console.ReadLine();
 
         var credentialData = "<UPWD," + username + "," + userTag + "," + password + ">";
         Console.WriteLine("\nFinal Request:\n" + credentialData);
     }
 
-    /* Part 2 of Authentication (Method 1 - Username):
+    /* Part 2 of Authentication (Method 2 - Email):
      * 1. Let the user enter an email address and password.
      * 2. Validate the credentials locally. */
     public void AuthenticateWithEmailAndPassword()
     {
-        Console.WriteLine("\nStep 1: Email Address" +
-            "\nRules:" +
+        Console.Write("\nStep 1: Email Address" +
             "\n1. Address <= 64 characters" +
             "\n2. Domain <= 255 characters" +
-            "\nEnter your email address:");
+            "\n\nEnter your email address: ");
         var email = Console.ReadLine();
 
-        Console.WriteLine("\nStep 2: Password" +
-            "\nRules:" +
+        Console.Write("\nStep 2: Password" +
             "\n1. 6 <= Length <= 64" +
             "\n2. At least 1 uppercase and 1 lowercase letter." +
             "\n3. At least 1 number." +
             "\nAt least 1 special character." +
-            "\nEnter your password: ");
+            "\n\nEnter your password: ");
+        var password = Console.ReadLine();
+
+        var credentialData = "<EWPD," + email + "," + password + ">";
+        Console.WriteLine("\nFinal Authentication Request:\n" + credentialData);
+    }
+
+    /* Part 2 of Authentication (Method 3 - QR):
+     * 1. Generate a QR code with the device information.
+     * 2. Have the user scan it with the mobile app. */
+    public void AuthenticateWithQRCode()
+    {
+        Console.Write("\nStep 1: Email Address" +
+            "\n1. Address <= 64 characters" +
+            "\n2. Domain <= 255 characters" +
+            "\n\nEnter your email address: ");
+        var email = Console.ReadLine();
+
+        Console.Write("\nStep 2: Password" +
+            "\n1. 6 <= Length <= 64" +
+            "\n2. At least 1 uppercase and 1 lowercase letter." +
+            "\n3. At least 1 number." +
+            "\nAt least 1 special character." +
+            "\n\nEnter your password: ");
         var password = Console.ReadLine();
 
         var credentialData = "<EWPD," + email + "," + password + ">";
@@ -157,26 +173,22 @@ public class AuthenticationClient
     {
         Console.WriteLine("\nREGISTER FOR A NEW ACCOUNT");
 
-        Console.WriteLine("\nStep 1: Email Address" +
-            "\nRules:" +
+        Console.Write("\nStep 1: Email Address" +
             "\n1. Address <= 64 characters" +
             "\n2. Domain <= 255 characters" +
-            "\nEnter your email address:");
+            "\nEnter your email address: ");
         var email = Console.ReadLine();
 
-        Console.WriteLine("\nStep 2: Password" +
-            "\nRules:" +
+        Console.Write("\nStep 2: Password" +
             "\n1. 6 <= Length <= 64" +
             "\n2. At least 1 uppercase and 1 lowercase letter." +
-            "\n3. At least 1 number." +
-            "\nAt least 1 special character." +
-            "\nChoose a password: ");
+            "\n\nChoose a password: ");
         var password = Console.ReadLine();
 
-        Console.WriteLine("\nStep 3: Confirm Password" +
+        Console.Write("\nStep 3: Confirm Password" +
             "\n1. All step 2 requirements." +
             "\n2. Must match previous password (case-sensitive)" +
-            "\nConfirm your password: ");
+            "\n\nConfirm your password: ");
         var confirmationPassword = Console.ReadLine();
     }
 }

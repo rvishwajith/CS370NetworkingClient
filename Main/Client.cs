@@ -42,6 +42,5 @@ public class Client
         {
             authClient.AuthenticateDevice();
         }
-        Console.WriteLine("Finished.");
     }
 }
