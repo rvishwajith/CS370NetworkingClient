@@ -14,6 +14,10 @@
  */
 
 using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Text;
 
 public class AuthenticationClient
 {
@@ -102,11 +106,13 @@ public class AuthenticationClient
             "\n\nEnter your username: ");
         var username = Console.ReadLine();
 
+        /*
         Console.Write("\nStep 2: Username Tag" +
             "\n1. 2 <= Length <= 6" +
             "\n2. Only letters and numbers." +
             "\n\nEnter your username tag: ");
         var userTag = Console.ReadLine();
+        */
 
         Console.Write("\nStep 3: Password" +
             "\n1. 6 <= Length <= 64" +
@@ -114,8 +120,20 @@ public class AuthenticationClient
             "\n\nEnter your password: ");
         var password = Console.ReadLine();
 
-        var credentialData = "<UPWD," + username + "," + userTag + "," + password + ">";
-        Console.WriteLine("\nFinal Request:\n" + credentialData);
+        var credentials = "UPWD " + username + " " + password;
+        SendCredentials(credentials);
+    }
+
+    /* Send the credentials for authentication to the server and wait for a
+     * validation response. */
+    public void SendCredentials(string credentials)
+    {
+        var credentialsData = Encoding.UTF8.GetBytes(credentials);
+        var client = new TcpClient();
+        client.Connect("127.0.0.1", 23761);
+        client.GetStream().Write(credentialsData, 0, credentialsData.Length);
+
+        Console.WriteLine("\nSent Credentials:\n" + credentials);
     }
 
     /* Part 2 of Authentication (Method 2 - Email):
