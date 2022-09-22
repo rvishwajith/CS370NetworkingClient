@@ -48,7 +48,7 @@ public class AuthenticationClient
     public void AuthenticateDevice()
     {
         Console.WriteLine("LOGIN OR REGISTER");
-        string option = GetAuthenticationOption();
+        string option = "UPWD"; // GetAuthenticationOption();
 
         if (option == "UPWD")
         {
@@ -104,7 +104,7 @@ public class AuthenticationClient
             "\n1. 2 <= Length <= 32" +
             "\n2. Only letters and numbers" +
             "\n\nEnter your username: ");
-        var username = Console.ReadLine();
+        var username = "eggsvibe#7676"; //Console.ReadLine();
 
         /*
         Console.Write("\nStep 2: Username Tag" +
@@ -118,10 +118,10 @@ public class AuthenticationClient
             "\n1. 6 <= Length <= 64" +
             "\n2. At least 1 uppercase and 1 lowercase letter." +
             "\n\nEnter your password: ");
-        var password = Console.ReadLine();
+        var password = "LebronJames"; // Console.ReadLine();
 
         var credentials = "UPWD " + username + " " + password;
-        SendCredentials(credentials);
+        SendCredentials(credentials.Trim());
     }
 
     /* Send the credentials for authentication to the server and wait for a
