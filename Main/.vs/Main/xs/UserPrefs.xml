@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{A216BA6F-12A1-4CE5-AF35-9AD31F467DF3}|Default">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.Main PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="AuthenticationClient.cs">
     <Files>
       <File FileName="NetworkConstants.cs" Line="42" Column="35" />
-      <File FileName="NetworkClient.cs" Line="52" Column="91" />
-      <File FileName="Client.cs" Line="38" Column="52" />
-      <File FileName="AuthenticationClient.cs" Line="15" Column="1" />
+      <File FileName="NetworkClient.cs" Line="48" Column="6" />
+      <File FileName="Client.cs" Line="33" Column="25" />
+      <File FileName="AuthenticationClient.cs" Line="161" Column="45" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,9 +18,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Main PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
 </Properties>

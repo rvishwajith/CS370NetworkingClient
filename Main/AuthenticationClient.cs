@@ -18,6 +18,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using System.IO;
 
 public class AuthenticationClient
 {
@@ -128,12 +129,51 @@ public class AuthenticationClient
      * validation response. */
     public void SendCredentials(string credentials)
     {
-        var credentialsData = Encoding.UTF8.GetBytes(credentials);
-        var client = new TcpClient();
-        client.Connect("127.0.0.1", 23761);
-        client.GetStream().Write(credentialsData, 0, credentialsData.Length);
+        Thread thread = new Thread(() =>
+        {
+            var credentialsData = Encoding.UTF8.GetBytes(credentials);
+            var client = new TcpClient();
+            client.Connect("127.0.0.1", 23761);
 
-        Console.WriteLine("\nSent Credentials:\n" + credentials);
+            var stream = client.GetStream();
+            stream.Write(credentialsData, 0, credentialsData.Length);
+            Console.WriteLine("\nSent:\n" + credentials);
+
+            int maximumDataSize = 256;
+
+            try
+            {
+                while (true)
+                {
+                    byte[] data = new byte[maximumDataSize];
+                    var dataLength = stream.Read(data, 0, data.Length);
+                    while (dataLength != 0)
+                    {
+                        var trimmedData = new byte[dataLength];
+                        Array.Copy(data, trimmedData, dataLength);
+
+                        var recievedEvent = Encoding.UTF8.GetString(trimmedData);
+                        Console.WriteLine("Recieved: " + recievedEvent);
+
+                        if (recievedEvent.Equals("Email2FACode"))
+                        {
+                            Console.Write("Enter email 2FA code: ");
+                            var inputCode = "Email2FACode " + Console.ReadLine()!;
+                            Console.WriteLine("\nSending code: " + inputCode);
+                            stream.Write(Encoding.UTF8.GetBytes(inputCode), 0, inputCode.Length);
+                        }
+
+                        dataLength = 0;
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Disconnected from server.");
+            }
+        });
+        //thread.IsBackground = true;
+        thread.Start();
     }
 
     /* Part 2 of Authentication (Method 2 - Email):
